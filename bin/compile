@@ -1,0 +1,26 @@
+#!/bin/sh
+
+
+arrow() {
+  echo '----->' "$@"
+}
+
+indent() {
+  sed -u 's/^/       /'
+}
+
+arrow "Starting adding ODBC Driver 17 for SQL Server"
+
+arrow "Adding MS repository key"
+curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+
+arrow "Adding MS repository link to list"
+curl https://packages.microsoft.com/config/ubuntu/18.04/prod.list > /etc/apt/sources.list.d/mssql-release.list
+
+arrow "Updating repositories"
+apt-get update
+
+arrow "Installing ODBC Driver 17 for SQL Server"
+ACCEPT_EULA=Y apt-get install msodbcsql17
+
+arrow "Finished adding ODBC Driver 17 for SQL Server"
